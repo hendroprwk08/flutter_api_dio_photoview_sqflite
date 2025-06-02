@@ -81,6 +81,41 @@ class _MyHomePageState extends State<MyHomePage> {
                               height: orientation == Orientation.portrait ? 170 : 185,
                               fit: BoxFit.cover,
                               width: double.infinity,
+                              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child; // Jika gambar sudah selesai dimuat, tampilkan gambar
+                                }
+
+                                return Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      height: orientation == Orientation.portrait ? 170 : 185,
+                                      width: double.infinity,
+                                      color: Colors.grey[300], // Placeholder warna saat loading
+                                    ),
+                                    CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                          : null,
+                                    ),
+                                    // const Icon(Icons.image, size: 50, color: Colors.grey), // Icon sebagai placeholder
+                                  ],
+                                );
+                              },
+                              errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                return Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      height: orientation == Orientation.portrait ? 170 : 185,
+                                      width: double.infinity,
+                                      color: Colors.grey[300], // Placeholder warna saat terjadi error
+                                    ),
+                                    const Icon(Icons.broken_image, size: 40, color: Colors.grey), // Icon error
+                                  ],
+                                );
+                              },
                             ),
                           ),
                         ),
