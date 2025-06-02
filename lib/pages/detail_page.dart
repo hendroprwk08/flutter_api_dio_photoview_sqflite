@@ -30,15 +30,24 @@ class DetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Hero(
-                tag: _tag,
-                child: Container(
-                  width: MediaQuery.of(context).size.width, // Full width,
-                  height: 320,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(_foto),
-                      fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/image',
+                      arguments: {
+                        'a_tag': _tag,
+                        'a_foto': _foto,
+                      });
+                },
+                child: Hero(
+                  tag: _tag,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width, // Full width,
+                    height: 320,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(_foto),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),

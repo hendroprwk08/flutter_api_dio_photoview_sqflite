@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/detail_page.dart';
+import 'pages/image_page.dart';
 import 'pages/home_page.dart';
 
 void main() => runApp(const MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/detail': (context) => const DetailPage(),
+        '/image': (context) => const ImagePage(),
       },
     );
   }
