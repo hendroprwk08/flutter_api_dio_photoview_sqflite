@@ -27,4 +27,28 @@ class Endemik {
       status: json["status"],
     );
   }
+
+  // mengubah data menjadi Map
+  Map<String, dynamic> toMap() {
+    return {
+      'nama': nama,
+      'nama_latin': nama_latin,
+      'deskripsi': deskripsi,
+      'asal': asal,
+      'foto': foto,
+      'status': status,
+    };
+  }
+
+  factory Endemik.fromMap(Map<String, dynamic> map) {
+    return Endemik(
+        id: map["id"],
+        nama: map["nama"],
+        nama_latin: map["nama_latin"],
+        deskripsi: map["deskripsi"],
+        asal: map["asal"],
+        foto: map["foto"],
+        status: map["status"],
+    );
+  }
 }
