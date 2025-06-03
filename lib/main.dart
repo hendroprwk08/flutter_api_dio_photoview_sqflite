@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: APP_NAME,
       theme: ThemeData(
-        primaryColor: Colors.purple, // Menentukan warna utama
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+        primaryColor: Colors.grey, // Menentukan warna utama
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
@@ -28,10 +28,10 @@ class MyApp extends StatelessWidget {
           iconTheme: IconThemeData(
             color: Colors.white, // Warna ikon menjadi putih
           ),
-          backgroundColor: Colors.purple, // Menggunakan warna utama untuk AppBar
+          backgroundColor: Colors.grey, // Menggunakan warna utama untuk AppBar
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Colors.purple, // Warna latar belakang
+          backgroundColor: Colors.grey, // Warna latar belakang
           selectedItemColor: Colors.white, // Warna item yang dipilih
           unselectedItemColor: Colors.white60, // Warna item yang tidak dipilih
           showSelectedLabels: true, // Menampilkan label item yang dipilih

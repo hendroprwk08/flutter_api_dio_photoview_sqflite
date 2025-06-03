@@ -21,6 +21,7 @@ class DetailPage extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: Text(_nama),
+          backgroundColor: getStatusColor(_status),
           leading: BackButton(
             onPressed: () => Navigator.of(context).pop(),
           ),
