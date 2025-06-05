@@ -43,7 +43,7 @@ class EndemikService {
             asal: json["asal"],
             foto: json["foto"],
             status: json["status"],
-            is_favorit: "0" ); // masuk sebagai string
+            is_favorit: "false" ); // masuk sebagai string
 
         await dbHelper.insert(model);
       }

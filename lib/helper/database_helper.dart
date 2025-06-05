@@ -10,7 +10,7 @@ import '../model/endemik.dart';
 class DatabaseHelper {
   static const _databaseName = 'my_database.db';
   static const _databaseVersion = 1;
-  static const _tableName = 'favorit';
+  static const _tableName = 'endemik';
   static const _columnId = 'id';
   static const _columnNama = 'nama';
   static const _columnNamaLatin = 'nama_latin';
@@ -43,6 +43,7 @@ class DatabaseHelper {
         onCreate: _onCreate);
   }
 
+  // membuat tabel
   Future _onCreate(Database db, int version) async {
     // _columnId bukan integer dan bukan auto increment
     // _columnIsFavorit
@@ -59,12 +60,14 @@ class DatabaseHelper {
     ''');
   }
 
+  // menyimpan data
   Future<int> insert(Endemik object) async {
     final db = await database;
 
     return await db.insert(_tableName, object.toMap());
   }
 
+  // mengambil seluruh data
   Future<List<Endemik>> getAll() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(_tableName);
@@ -74,6 +77,7 @@ class DatabaseHelper {
     });
   }
 
+  // menandai atau menghapus data sebagai favorit
   Future<int> setFavorit(String id, String isFavorit) async {
     final db = await database;
 
@@ -86,18 +90,21 @@ class DatabaseHelper {
     );
   }
 
+  // mengambil data yang ditandai sebagai favorit
+  // is_favorit = true
   Future<List<Endemik>> getFavoritAll() async {
     final db = await database;
 
     final List<Map<String, dynamic>> maps = await db.query(
       _tableName,
       where: '$_columnIsFavorit = ?',
-      whereArgs: [1],
+      whereArgs: ["true"],
     );
 
     return maps.map((map) => Endemik.fromMap(map)).toList();
   }
 
+  // menampilkan data berdasarkan ID
   Future<Endemik?> getById(String id) async {
     final db = await database;
 
@@ -114,27 +121,32 @@ class DatabaseHelper {
     return Endemik.fromMap(maps.first);
   }
 
+  // -- tidak digunakan --
+  // mengubah data endemik
   Future<int> updateEndemik(Endemik object) async {
     final db = await database;
     return await db.update(_tableName, object.toMap(), where:
     '$_columnId = ?', whereArgs: [object.id]);
   }
 
-  // hanya mengubah kolom favorit menjadi false
+  // mengubah seluruh isi kolom is_favorit menjadi false
   Future<int> deleteFavoritAll() async {
     final db = await database;
     return await db.update(
       _tableName,
-      { _columnIsFavorit: 0 }, // false (0)
+      { _columnIsFavorit: false },
     );
   }
 
+  // -- tidak digunakan --
+  // menghapus data
   Future<int> delete(String id) async {
     final db = await database;
     return await db.delete(_tableName, where: '$_columnId = ?',
         whereArgs: [id]);
   }
 
+  // menghitung jumlah data dalam tabel
   Future<int> count() async {
     final db = await database;
     var result = await db.rawQuery('SELECT COUNT(*) FROM $_tableName');
