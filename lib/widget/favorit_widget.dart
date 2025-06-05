@@ -48,17 +48,14 @@ class _FavoritWidgetState extends State<FavoritWidget> {
                 final favoritItem = _favoritList[index];
 
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/detail', arguments: {
+                  onTap: () async {
+                    // reresh seteleh selesai membuat detail_page.dart
+                    await Navigator.pushNamed(context, '/detail', arguments: {
                       'a_tag': 'image $index',
                       'a_id': favoritItem.id,
-                      'a_nama': favoritItem.nama,
-                      'a_nama_latin': favoritItem.nama_latin,
-                      'a_deskripsi': favoritItem.deskripsi,
-                      'a_asal': favoritItem.asal,
-                      'a_foto': favoritItem.foto,
-                      'a_status': favoritItem.status,
                     });
+
+                    _refreshFavoritList();
                   },
                   child: Card(
                     color: Colors.white70,
@@ -156,5 +153,17 @@ class _FavoritWidgetState extends State<FavoritWidget> {
         label: const Text('Hapus'),
       ),
     );
+  }
+
+  void _refreshFavoritList() async {
+    setState(() {
+      _favoritList = []; // Kosongkan daftar favorit terlebih dahulu
+    });
+
+    final List<Endemik> newData = await _databaseHelper.getFavoritAll();
+
+    setState(() {
+      _favoritList = newData; // Perbarui dengan data baru
+    });
   }
 }
