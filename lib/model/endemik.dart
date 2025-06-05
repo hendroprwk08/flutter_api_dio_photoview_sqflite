@@ -3,7 +3,7 @@
  fungsinya mirip seperti sebuah tabel pada basis data
 */
 class Endemik {
-  late final String id, nama, nama_latin, deskripsi, asal, foto, status;
+  late final String id, nama, nama_latin, deskripsi, asal, foto, status, is_favorit;
 
   Endemik({
     required this.id,
@@ -13,6 +13,7 @@ class Endemik {
     required this.asal,
     required this.foto,
     required this.status,
+    required this.is_favorit,
   });
 
   // penampung data dari json
@@ -25,18 +26,21 @@ class Endemik {
       asal: json["asal"],
       foto: json["foto"],
       status: json["status"],
+      is_favorit: "false"
     );
   }
 
   // mengubah data menjadi Map
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'nama': nama,
       'nama_latin': nama_latin,
       'deskripsi': deskripsi,
       'asal': asal,
       'foto': foto,
       'status': status,
+      'is_favorit': is_favorit,
     };
   }
 
@@ -49,6 +53,7 @@ class Endemik {
         asal: map["asal"],
         foto: map["foto"],
         status: map["status"],
+        is_favorit: map["is_favorit"],
     );
   }
 }

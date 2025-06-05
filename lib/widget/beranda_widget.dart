@@ -36,11 +36,11 @@ class _BerandaWidgetState extends State<BerandaWidget> {
     return isLoading
         ? const Center(child: CircularProgressIndicator())
         : GridView.count(
-      crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
-      crossAxisSpacing: 5,
-      mainAxisSpacing: 5,
-      children:
-      List.generate(endemik == null ? 0 : endemik.length, (index) {
+              crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
+              children:
+              List.generate(endemik == null ? 0 : endemik.length, (index) {
         final endemikItem = endemik[index];
 
         return GestureDetector(
@@ -48,12 +48,6 @@ class _BerandaWidgetState extends State<BerandaWidget> {
             Navigator.pushNamed(context, '/detail', arguments: {
               'a_tag': 'image $index',
               'a_id': endemikItem.id,
-              'a_nama': endemikItem.nama,
-              'a_nama_latin': endemikItem.nama_latin,
-              'a_deskripsi': endemikItem.deskripsi,
-              'a_asal': endemikItem.asal,
-              'a_foto': endemikItem.foto,
-              'a_status': endemikItem.status,
             });
           },
           child: Card(
@@ -133,14 +127,14 @@ class _BerandaWidgetState extends State<BerandaWidget> {
                     ),
                   ),
                 ),
-                Text(endemikItem.nama.length >= 20
-                    ? endemikItem.nama.substring(0, 20)
+                Text(endemikItem.nama.length > 20
+                    ? endemikItem.nama.substring(0, 18) +'...'
                     : endemikItem.nama)
               ],
             ),
           ),
         );
-      }),
-    );
+              }),
+            );
   }
 }

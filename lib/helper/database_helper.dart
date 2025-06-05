@@ -3,10 +3,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import '../model/endemik.dart';
 
+/*
+  operasi basis data berada pada file ini
+*/
+
 class DatabaseHelper {
   static const _databaseName = 'my_database.db';
   static const _databaseVersion = 1;
-  static const _tableName = 'endemik';
+  static const _tableName = 'favorit';
   static const _columnId = 'id';
   static const _columnNama = 'nama';
   static const _columnNamaLatin = 'nama_latin';
@@ -14,6 +18,7 @@ class DatabaseHelper {
   static const _columnAsal = 'asal';
   static const _columnFoto = 'foto';
   static const _columnStatus = 'status';
+  static const _columnIsFavorit = 'is_favorit';
 
   static final DatabaseHelper _instance = DatabaseHelper._internal();
 
@@ -39,18 +44,21 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
+    // _columnId bukan integer dan bukan auto increment
+    // _columnIsFavorit
     await db.execute('''
     CREATE TABLE $_tableName (
-    $_columnId INTEGER PRIMARY KEY AUTOINCREMENT,
+    $_columnId TEXT PRIMARY KEY,
     $_columnNama TEXT,
     $_columnNamaLatin TEXT,
     $_columnDeskripsi TEXT,
     $_columnAsal TEXT,
     $_columnFoto TEXT,
-    $_columnStatus TEXT    
-    )
+    $_columnStatus TEXT,
+    $_columnIsFavorit TEXT)
     ''');
   }
+
   Future<int> insert(Endemik object) async {
     final db = await database;
 
@@ -66,7 +74,31 @@ class DatabaseHelper {
     });
   }
 
-  Future<Endemik?> getById(int id) async {
+  Future<int> setFavorit(String id, String isFavorit) async {
+    final db = await database;
+
+    // Update hanya kolom favorit
+    return await db.update(
+      _tableName,
+      { _columnIsFavorit: isFavorit },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<List<Endemik>> getFavoritAll() async {
+    final db = await database;
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      _tableName,
+      where: '$_columnIsFavorit = ?',
+      whereArgs: [1],
+    );
+
+    return maps.map((map) => Endemik.fromMap(map)).toList();
+  }
+
+  Future<Endemik?> getById(String id) async {
     final db = await database;
 
     final List<Map<String, dynamic>> maps = await db.query(
@@ -88,9 +120,25 @@ class DatabaseHelper {
     '$_columnId = ?', whereArgs: [object.id]);
   }
 
-  Future<int> delete(int id) async {
+  // hanya mengubah kolom favorit menjadi false
+  Future<int> deleteFavoritAll() async {
+    final db = await database;
+    return await db.update(
+      _tableName,
+      { _columnIsFavorit: 0 }, // false (0)
+    );
+  }
+
+  Future<int> delete(String id) async {
     final db = await database;
     return await db.delete(_tableName, where: '$_columnId = ?',
         whereArgs: [id]);
+  }
+
+  Future<int> count() async {
+    final db = await database;
+    var result = await db.rawQuery('SELECT COUNT(*) FROM $_tableName');
+    int count = Sqflite.firstIntValue(result) ?? 0;
+    return count;
   }
 }

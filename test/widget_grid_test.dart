@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:EndemikDB/pages/home_page.dart';
+import 'package:EndemikDB/screen/home_page.dart';
 import 'package:EndemikDB/model/endemik.dart';
 import 'package:EndemikDB/service/endemik_service.dart';
 
